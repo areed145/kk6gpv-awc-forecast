@@ -1,6 +1,6 @@
 import urllib.request
 import xml.etree.ElementTree as ET
-from datetime import datetime
+from datetime import datetime, timezone
 from pymongo import MongoClient
 import pandas as pd
 import numpy as np
@@ -127,9 +127,9 @@ def get_obs(lat_min, lon_min, inc, timeback, max_pool):
             message["observation_time"] = pd.to_datetime(
                 message["observation_time"]
             )
-            message["timestamp"] = datetime.utcnow()
+            message["timestamp"] = datetime.now(timezone.utc)
             message["topic"] = "wx/awc"
-            message["ttl"] = datetime.utcnow()
+            message["ttl"] = datetime.now(timezone.utc)
             message["temp_c_var"] = get_range(message, 150, awc, "temp_c")
             message["altim_in_hg_var"] = get_range(
                 message, 250, awc, "altim_in_hg"
